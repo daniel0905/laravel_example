@@ -30,5 +30,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/{order}', [OrderController::class, 'getOrder'])->name('orders.getOrder');
         Route::post('/', [OrderController::class, 'createOrder'])->name('orders.createOrder');
+        Route::put('/{order}', [OrderController::class, 'updateOrder'])->name('orders.updateOrder');
+        Route::delete('/{order}', [OrderController::class, 'deleteOrder'])->name('orders.deleteOrder');
     });
 });

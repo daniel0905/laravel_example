@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateProduct;
-use App\Http\Requests\Admin\CreateProductRequest;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
-use App\Models\Product;
-use App\Services\BigCommerce\BigCommerceClient;
 use App\Services\CreateOrderService;
+use App\Services\UpdateOrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -61,5 +59,33 @@ class OrderController extends Controller
     public function createOrder(CreateOrderRequest $request, CreateOrderService $createOrderService)
     {
         return $createOrderService->handle($request);
+    }
+
+    /**
+     * Update an order
+     *
+     * @param UpdateOrderRequest $request
+     * @param UpdateOrderService $updateOrderService
+     * @param Order $order
+     * @return Order
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateOrder(UpdateOrderRequest $request, UpdateOrderService $updateOrderService, Order $order)
+    {
+        return $updateOrderService->handle($request, $order);
+    }
+
+    /**
+     * Delete an order
+     *
+     * @param Order $order
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteOrder(Order $order)
+    {
+        $order->books()->detach();
+        $order->delete();
+
+        return response()->json(['message' => 'Order was deleted']);
     }
 }
