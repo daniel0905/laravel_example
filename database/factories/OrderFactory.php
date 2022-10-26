@@ -14,7 +14,8 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            'note' => $this->faker->paragraph
+            'note' => $this->faker->paragraph,
+            'date' => $this->faker->date,
         ];
     }
 }

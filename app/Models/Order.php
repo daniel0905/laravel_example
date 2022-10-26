@@ -28,4 +28,28 @@ class Order extends Model
     {
         return $this->belongsToMany(Book::class, 'order_detail', 'order_id', 'book_id')->withPivot(['quantity', 'price']);
     }
+
+    /**
+     * Find by min of date
+     *
+     * @param $query
+     * @param $minDate
+     * @return mixed
+     */
+    public function scopeByMinDate($query, $minDate)
+    {
+        return $query->whereDate('date', '>=', $minDate);
+    }
+
+    /**
+     * Find by max of date
+     *
+     * @param $query
+     * @param $maxDate
+     * @return mixed
+     */
+    public function scopeByMaxDate($query, $maxDate)
+    {
+        return $query->whereDate('date', '<=', $maxDate);
+    }
 }
