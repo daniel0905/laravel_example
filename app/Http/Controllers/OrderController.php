@@ -31,4 +31,15 @@ class OrderController
 
         return $query->paginate($request->input('limit', 50));
     }
+
+    /**
+     * Get an order
+     *
+     * @param Order $order
+     * @return Order
+     */
+    public function getOrder(Order $order)
+    {
+        return $order->load('user', 'books');
+    }
 }

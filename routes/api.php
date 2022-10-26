@@ -25,5 +25,6 @@ Route::middleware('api')->group(function () {
     });
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/{order}', [OrderController::class, 'getOrder'])->name('orders.getOrder');
     });
 });
