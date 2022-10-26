@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateProduct;
+use App\Http\Requests\Admin\CreateProductRequest;
+use App\Http\Requests\CreateOrderRequest;
 use App\Models\Order;
+use App\Models\Product;
+use App\Services\BigCommerce\BigCommerceClient;
+use App\Services\CreateOrderService;
 use Illuminate\Http\Request;
 
-class OrderController
+class OrderController extends Controller
 {
+
     /**
      * Search order
      *
@@ -15,7 +22,7 @@ class OrderController
      */
     public function index(Request $request)
     {
-        $query = Order::query()->with('user', 'books');
+        $query = Order::query()->with(Order::LOAD_WITH);
 
         if ($request->has('user_id')) {
             $query->where('user_id', $request->get('user_id'));
@@ -40,6 +47,19 @@ class OrderController
      */
     public function getOrder(Order $order)
     {
-        return $order->load('user', 'books');
+        return $order->load(Order::LOAD_WITH);
+    }
+
+    /**
+     * Create an order
+     *
+     * @param CreateOrderRequest $request
+     * @param CreateOrderService $createOrderService
+     * @return Order
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function createOrder(CreateOrderRequest $request, CreateOrderService $createOrderService)
+    {
+        return $createOrderService->handle($request);
     }
 }

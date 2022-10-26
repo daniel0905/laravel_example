@@ -9,6 +9,10 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['note', 'date'];
+
+    const LOAD_WITH = ['user', 'books'];
+
     /**
      * Relationship with User
      *

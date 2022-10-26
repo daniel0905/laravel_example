@@ -21,8 +21,8 @@ class CreateBooksTable extends Migration
             $table->integer('price')->default(0);
             $table->integer('inventory')->default(0);
 
-            $table->unsignedBigInteger('category_id')->index();
-            $table->unsignedBigInteger('author_id')->index();
+            $table->unsignedBigInteger('category_id')->nullable()->index();
+            $table->unsignedBigInteger('author_id')->nullable()->index();
 
             $table->timestamps();
         });
